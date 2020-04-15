@@ -1,0 +1,16 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UE4Editor-UDC.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"E:\Programming\unreal\UntitledDungeonCrawler\UDC\Intermediate\Build\Win64\UDCEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.obj"
+"E:\Programming\unreal\UntitledDungeonCrawler\UDC\Intermediate\Build\Win64\UE4Editor\Development\UDC\UDC.cpp.obj"
+"E:\Programming\unreal\UntitledDungeonCrawler\UDC\Intermediate\Build\Win64\UE4Editor\Development\UDC\UDCGameModeBase.cpp.obj"
+"E:\Programming\unreal\UntitledDungeonCrawler\UDC\Intermediate\Build\Win64\UE4Editor\Development\UDC\UDC.init.gen.cpp.obj"
+"E:\Programming\unreal\UntitledDungeonCrawler\UDC\Intermediate\Build\Win64\UE4Editor\Development\UDC\UDCGameModeBase.gen.cpp.obj"
+"E:\Programming\unreal\UntitledDungeonCrawler\UDC\Intermediate\Build\Win64\UE4Editor\Development\UDC\Default.rc2.res"
+/OUT:"E:\Programming\unreal\UntitledDungeonCrawler\UDC\Intermediate\Build\Win64\UE4Editor\Development\UDC\UE4Editor-UDC.lib"
+/INCLUDE:IMPLEMENT_MODULE_UDC

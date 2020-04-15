@@ -1,0 +1,7 @@
+E:\Programming\unreal\UntitledDungeonCrawler\UDC\Intermediate\Build\Win64\UE4Editor\Development\UDC\Definitions.UDC.h
+E:\Programming\unreal\UntitledDungeonCrawler\UDC\Source\UDC\UDCGameModeBase.h
+E:\Programming\Engines\UE_4.24\Engine\Source\Runtime\Engine\Classes\GameFramework/GameModeBase.h
+E:\Programming\Engines\UE_4.24\Engine\Source\Runtime\Engine\Classes\Engine/ServerStatReplicator.h
+E:\Programming\Engines\UE_4.24\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\ServerStatReplicator.generated.h
+E:\Programming\Engines\UE_4.24\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\GameModeBase.generated.h
+E:\Programming\unreal\UntitledDungeonCrawler\UDC\Intermediate\Build\Win64\UE4Editor\Inc\UDC\UDCGameModeBase.generated.h
