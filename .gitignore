@@ -1,4 +1,4 @@
-.UDC/vs/
+.vs/
 
 # Compiled Object files
 *.slo
@@ -52,9 +52,9 @@ UDC/Plugins/*/Binaries/*
 UDC/Build/*
 
 # Whitelist PakBlacklist-<BuildConfiguration>.txt files
-!UDC/Build/*/
-UDC/Build/*/**
-!UDC/Build/*/PakBlacklist*.txt
+!Build/*/
+Build/*/**
+!Build/*/PakBlacklist*.txt
 
 # Don't ignore icon files in Build
 !Build/**/*.ico
@@ -71,3 +71,7 @@ UDC/Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 UDC/DerivedDataCache/*
+UDC/Intermediate/CachedAssetRegistry.bin
+UDC/Intermediate/CachedAssetRegistry.bin
+UDC/Saved/Logs/UDC.log
+UDC/Intermediate/CachedAssetRegistry.bin
