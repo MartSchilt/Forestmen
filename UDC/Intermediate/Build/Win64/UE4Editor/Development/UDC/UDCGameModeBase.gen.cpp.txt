@@ -1,9 +1,9 @@
-D:\Local Files\Documenten\School\UDC\UntitledDungeonCrawler\UDC\Intermediate\Build\Win64\UE4Editor\Development\UDC\Definitions.UDC.h
-D:\Unreal\UE_4.24\Engine\Source\Runtime\CoreUObject\Public\UObject/GeneratedCppIncludes.h
-D:\Unreal\UE_4.24\Engine\Source\Runtime\CoreUObject\Public\UObject/MetaData.h
-D:\Local Files\Documenten\School\UDC\UntitledDungeonCrawler\UDC\Source\UDC/UDCGameModeBase.h
-D:\Unreal\UE_4.24\Engine\Source\Runtime\Engine\Classes\GameFramework/GameModeBase.h
-D:\Unreal\UE_4.24\Engine\Source\Runtime\Engine\Classes\Engine/ServerStatReplicator.h
-D:\Unreal\UE_4.24\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\ServerStatReplicator.generated.h
-D:\Unreal\UE_4.24\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\GameModeBase.generated.h
-d:\local files\documenten\school\udc\untitleddungeoncrawler\udc\intermediate\build\win64\ue4editor\inc\udc\UDCGameModeBase.generated.h
+E:\Programming\unreal\UntitledDungeonCrawler\UDC\Intermediate\Build\Win64\UE4Editor\Development\UDC\Definitions.UDC.h
+E:\Programming\Engines\UE_4.24\Engine\Source\Runtime\CoreUObject\Public\UObject/GeneratedCppIncludes.h
+E:\Programming\Engines\UE_4.24\Engine\Source\Runtime\CoreUObject\Public\UObject/MetaData.h
+E:\Programming\unreal\UntitledDungeonCrawler\UDC\Source\UDC/UDCGameModeBase.h
+E:\Programming\Engines\UE_4.24\Engine\Source\Runtime\Engine\Classes\GameFramework/GameModeBase.h
+E:\Programming\Engines\UE_4.24\Engine\Source\Runtime\Engine\Classes\Engine/ServerStatReplicator.h
+E:\Programming\Engines\UE_4.24\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\ServerStatReplicator.generated.h
+E:\Programming\Engines\UE_4.24\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\GameModeBase.generated.h
+E:\Programming\unreal\UntitledDungeonCrawler\UDC\Intermediate\Build\Win64\UE4Editor\Inc\UDC\UDCGameModeBase.generated.h

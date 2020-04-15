@@ -1,2 +1,2 @@
-D:\Local Files\Documenten\School\UDC\UntitledDungeonCrawler\UDC\Intermediate\Build\Win64\UE4Editor\Development\UDC\Definitions.UDC.h
-d:\local files\documenten\school\udc\untitleddungeoncrawler\udc\source\udc\UDC.h
+E:\Programming\unreal\UntitledDungeonCrawler\UDC\Intermediate\Build\Win64\UE4Editor\Development\UDC\Definitions.UDC.h
+E:\Programming\unreal\UntitledDungeonCrawler\UDC\Source\UDC\UDC.h

@@ -2,12 +2,12 @@
 	"Targets": [
 		{
 			"Name": "UDC",
-			"Path": "D:\\Local Files\\Documenten\\School\\UDC\\UntitledDungeonCrawler\\UDC\\Source\\UDC.Target.cs",
+			"Path": "E:\\Programming\\unreal\\UntitledDungeonCrawler\\UDC\\Source\\UDC.Target.cs",
 			"Type": "Game"
 		},
 		{
 			"Name": "UDCEditor",
-			"Path": "D:\\Local Files\\Documenten\\School\\UDC\\UntitledDungeonCrawler\\UDC\\Source\\UDCEditor.Target.cs",
+			"Path": "E:\\Programming\\unreal\\UntitledDungeonCrawler\\UDC\\Source\\UDCEditor.Target.cs",
 			"Type": "Editor"
 		}
 	]
