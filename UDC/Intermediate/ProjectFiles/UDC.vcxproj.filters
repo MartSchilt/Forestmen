@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\UDC.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{0C0F4E51-B40F-40F3-A117-CFC5D25F24E3}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\UDC.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\UDCEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <Filter Include="Config">
+      <UniqueIdentifier>{A4DFCBFB-D041-4F8A-8AB5-407C32BAA89E}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\UDC">
+      <UniqueIdentifier>{D30DA7F9-1F1E-42B3-A744-EC6ECBDA59EA}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\UDC\UDC.Build.cs">
+      <Filter>Source\UDC</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\UDC\UDC.cpp">
+      <Filter>Source\UDC</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\UDC\UDC.h">
+      <Filter>Source\UDC</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\UDC\UDCGameModeBase.cpp">
+      <Filter>Source\UDC</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\UDC\UDCGameModeBase.h">
+      <Filter>Source\UDC</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
