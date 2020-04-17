@@ -1,2 +1,0 @@
-E:\Programming\unreal\UntitledDungeonCrawler\UDC\Intermediate\Build\Win64\UE4Editor\Development\UDC\Definitions.UDC.h
-E:\Programming\unreal\UntitledDungeonCrawler\UDC\Source\UDC\UDC.h
