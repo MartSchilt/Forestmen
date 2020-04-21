@@ -33,6 +33,7 @@ APlayerCharacter::APlayerCharacter()
 	FollowCamera->bUsePawnControlRotation = false;
 
 	bDead = false;
+	Power = 10.0f;
 
 }
 
@@ -40,6 +41,13 @@ APlayerCharacter::APlayerCharacter()
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnBeginOverlap);
+
+	if (Player_Power_Widget_Class != nullptr) {
+		Player_Power_Widget = CreateWidget(GetWorld(), Player_Power_Widget_Class);
+		Player_Power_Widget->AddToViewport();
+	}
 	
 }
 
@@ -87,6 +95,21 @@ void APlayerCharacter::MoveRight(float Axis)
 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		AddMovementInput(Direction, Axis);
+	}
+}
+
+void APlayerCharacter::OnBeginOverlap(UPrimitiveComponent * HitComp, 
+	AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, 
+	bool bFromSweep, const FHitResult & SweepResult)
+{
+	// Pickable item has the tag "Recharge"
+	if (OtherActor->ActorHasTag("Recharge")) {
+		UE_LOG(LogTemp, Warning, TEXT("Collided with"));
+
+		Power += 10.0f;
+		if (Power > 100.0f) Power = 100.0f;
+
+		OtherActor->Destroy();
 	}
 }
 
