@@ -54,6 +54,8 @@ public:
 
 	UUserWidget* Player_Power_Widget;
 
+	void RestartGame();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

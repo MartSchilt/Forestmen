@@ -2,6 +2,9 @@
 
 
 #include "PlayerCharacter.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "GameFramework/Actor.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -18,9 +21,12 @@ APlayerCharacter::APlayerCharacter()
 	// Rotate the character to the direction it is headed
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
+	// Jump Height
 	GetCharacterMovement()->JumpZVelocity = 600.0f;
+	// How much you can move in the air
 	GetCharacterMovement()->AirControl = 0.2f;
-
+	
+	// Attach the camera with a boom
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
 
@@ -33,7 +39,8 @@ APlayerCharacter::APlayerCharacter()
 	FollowCamera->bUsePawnControlRotation = false;
 
 	bDead = false;
-	Power = 10.0f;
+	Power = 100.0f;
+	Power_Treshold = 5.0f;
 
 }
 
@@ -55,6 +62,20 @@ void APlayerCharacter::BeginPlay()
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	Power -= DeltaTime * Power_Treshold;
+
+	if (Power <= 0) {
+		if (!bDead) {
+			bDead = true;
+
+			GetMesh()->SetSimulatePhysics(true);
+
+			FTimerHandle UnusedHandle;
+			// Don't worry about the red line, it works
+			GetWorldTimerManager().SetTimer(UnusedHandle, this, &APlayerCharacter::RestartGame, 3.0f, false);
+		}
+	}
 
 }
 
@@ -96,6 +117,12 @@ void APlayerCharacter::MoveRight(float Axis)
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		AddMovementInput(Direction, Axis);
 	}
+}
+
+void APlayerCharacter::RestartGame()
+{
+	// Reload this world
+	UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
 }
 
 void APlayerCharacter::OnBeginOverlap(UPrimitiveComponent * HitComp, 
