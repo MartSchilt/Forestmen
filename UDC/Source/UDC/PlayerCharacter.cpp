@@ -63,7 +63,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	Power -= DeltaTime * Power_Treshold;
+	//Power -= DeltaTime * Power_Treshold;
 
 	if (Power <= 0) {
 		if (!bDead) {
@@ -133,7 +133,7 @@ void APlayerCharacter::OnBeginOverlap(UPrimitiveComponent * HitComp,
 	if (OtherActor->ActorHasTag("Recharge")) {
 		UE_LOG(LogTemp, Warning, TEXT("Collided with"));
 
-		Power += 10.0f;
+		Power -= 10.0f;
 		if (Power > 100.0f) Power = 100.0f;
 
 		OtherActor->Destroy();
