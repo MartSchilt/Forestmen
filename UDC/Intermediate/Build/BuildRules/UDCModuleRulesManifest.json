@@ -1,8 +1,0 @@
-{
-	"SourceFiles": [
-		"E:\\Programming\\unreal\\UntitledDungeonCrawler\\UDC\\Source\\UDC\\UDC.Build.cs",
-		"E:\\Programming\\unreal\\UntitledDungeonCrawler\\UDC\\Source\\UDC.Target.cs",
-		"E:\\Programming\\unreal\\UntitledDungeonCrawler\\UDC\\Source\\UDCEditor.Target.cs"
-	],
-	"EngineVersion": "4.24.3"
-}

@@ -5,10 +5,10 @@ using System.Collections.Generic;
 
 public class UDCTarget : TargetRules
 {
-	public UDCTarget( TargetInfo Target) : base(Target)
+	public UDCTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
-		ExtraModuleNames.AddRange( new string[] { "UDC" } );
+		ExtraModuleNames.Add("UDC");
 	}
 }
