@@ -15,8 +15,8 @@ public:
 	// Sets default values for this actor's properties
 	ASword();
 
-	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent* SM_Sword;
+	UFUNCTION(BlueprintCallable, Category = Damage)
+		float DoDamage(float Damage);
 	
 
 protected:
