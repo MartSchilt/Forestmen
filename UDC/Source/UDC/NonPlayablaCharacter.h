@@ -19,6 +19,7 @@ public:
 	// Sets default values for this character's properties
 	ANonPlayablaCharacter();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bDead;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

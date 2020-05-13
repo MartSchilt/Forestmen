@@ -49,9 +49,7 @@ bool ANonPlayablaCharacter::TakeDamage(float Damage)
 {
 	bool playAnimation = false;
 
-	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("Take Damage"));
 	if (Is_Attacked == false) {
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("Is attacked false"));
 		Is_Attacked = true;
 		HenkPoints -= Damage;
 		
@@ -60,7 +58,7 @@ bool ANonPlayablaCharacter::TakeDamage(float Damage)
 	}
 
 	if (HenkPoints <= 0) {
-		this->Destroy();
+		bDead = true;
 		playAnimation = false;
 	}
 
@@ -69,7 +67,6 @@ bool ANonPlayablaCharacter::TakeDamage(float Damage)
 
 void ANonPlayablaCharacter::onTimerEnd()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("Timer is up"));
 	Is_Attacked = false;
 }
 
