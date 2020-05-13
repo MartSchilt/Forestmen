@@ -4,16 +4,20 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "WeaponBase.generated.h"
+#include "Sword.generated.h"
 
 UCLASS()
-class UDC_API AWeaponBase : public AActor
+class UDC_API ASword : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AWeaponBase();
+	ASword();
+
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent* SM_Sword;
+	
 
 protected:
 	// Called when the game starts or when spawned
