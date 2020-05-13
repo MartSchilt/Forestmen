@@ -10,8 +10,8 @@ UCLASS()
 class UDC_API ATimeActor : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ATimeActor();
 
@@ -19,12 +19,21 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void CallThis();
+	// Gameloop variables
+	void Timer();
+	int Seconds;
+	int Minutes;
+	bool TickDown;
 
 	FTimerHandle MemberTimerHandle;
 
+	UFUNCTION(BlueprintCallable)
+		void Decrease();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int Count;
 };
