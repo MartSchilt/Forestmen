@@ -28,8 +28,6 @@ ANonPlayablaCharacter::ANonPlayablaCharacter()
 void ANonPlayablaCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Timer is up"));
-	GetWorld()->GetTimerManager().SetTimer(_loopTimerHandle, this, &ANonPlayablaCharacter::onTimerEnd, 5.f, false);
 	
 }
 
@@ -47,15 +45,31 @@ void ANonPlayablaCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 
 }
 
-void ANonPlayablaCharacter::TakeDamage(float Damage)
+bool ANonPlayablaCharacter::TakeDamage(float Damage)
 {
-	if (!Is_Attacked) {
+	bool playAnimation = false;
+
+	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("Take Damage"));
+	if (Is_Attacked == false) {
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("Is attacked false"));
 		Is_Attacked = true;
+		HenkPoints -= Damage;
+		
+		GetWorld()->GetTimerManager().SetTimer(_loopTimerHandle, this, &ANonPlayablaCharacter::onTimerEnd, 1.667f, false);
+		playAnimation = true;
 	}
+
+	if (HenkPoints <= 0) {
+		this->Destroy();
+		playAnimation = false;
+	}
+
+	return playAnimation;
 }
 
 void ANonPlayablaCharacter::onTimerEnd()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Timer is up"));
+	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("Timer is up"));
+	Is_Attacked = false;
 }
 
