@@ -35,6 +35,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		int Count;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		bool Lost;
+
 	UFUNCTION(BlueprintCallable)
 		void Decrease();
 

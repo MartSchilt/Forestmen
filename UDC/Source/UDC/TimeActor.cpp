@@ -14,6 +14,7 @@ ATimeActor::ATimeActor()
 	Minutes = 1;
 	TickDown = true;
 	Count = 6;
+	Lost = false;
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 }
@@ -48,6 +49,7 @@ void ATimeActor::Timer()
 				{
 					UE_LOG(LogTemp, Warning, TEXT("Time's up, you lost."));
 					TickDown = false;
+					Lost = true;
 					GetWorldTimerManager().ClearTimer(MemberTimerHandle);
 				}
 				else if (Minutes >= 0)
