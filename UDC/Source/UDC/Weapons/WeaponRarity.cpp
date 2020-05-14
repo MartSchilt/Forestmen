@@ -1,14 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Sword.h"
-#include "Engine.h"
-#include "Components/StaticMeshComponent.h"
-//#include "WeaponRarity.h"
+#include "WeaponRarity.h"
 
-using namespace std;
-
-#pragma region Weapon Rarities
 
 class WeaponRarity {
 public:
@@ -44,34 +38,47 @@ public:
 	}
 };
 
-#pragma endregion
-
-
 // Sets default values
-ASword::ASword()
+AWeaponRarity::AWeaponRarity()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
 }
 
-float ASword::GetDamage(Rarity rarity) {
-	return (20 + rarity * 10);
+float AWeaponRarity::GetCommon() {
+	Common rarity;
+	return rarity.GetWeaponDamage();
 }
 
+float AWeaponRarity::GetRare() {
+	Rare rarity;
+	return rarity.GetWeaponDamage();
+}
 
+float AWeaponRarity::GetEpic() {
+	Epic rarity;
+	return rarity.GetWeaponDamage();
+}
 
+float AWeaponRarity::GetLegendary() {
+	Legendary rarity;
+	return rarity.GetWeaponDamage();
+}
 
 
 
 // Called when the game starts or when spawned
-void ASword::BeginPlay()
+void AWeaponRarity::BeginPlay()
 {
 	Super::BeginPlay();
+	
 }
 
 // Called every frame
-void ASword::Tick(float DeltaTime)
+void AWeaponRarity::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
+
