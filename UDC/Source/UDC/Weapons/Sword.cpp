@@ -8,45 +8,6 @@
 
 using namespace std;
 
-#pragma region Weapon Rarities
-
-class WeaponRarity {
-public:
-	virtual float GetWeaponDamage() = 0;
-
-};
-
-class Common : public WeaponRarity {
-public:
-	float GetWeaponDamage() {
-		return 20;
-	}
-};
-
-class Rare : public WeaponRarity {
-public:
-	float GetWeaponDamage() {
-		return 30;
-	}
-};
-
-class Epic : public WeaponRarity {
-public:
-	float GetWeaponDamage() {
-		return 35;
-	}
-};
-
-class Legendary : public WeaponRarity {
-public:
-	float GetWeaponDamage() {
-		return 50;
-	}
-};
-
-#pragma endregion
-
-
 // Sets default values
 ASword::ASword()
 {
@@ -57,11 +18,6 @@ ASword::ASword()
 float ASword::GetDamage(Rarity rarity) {
 	return (20 + rarity * 10);
 }
-
-
-
-
-
 
 // Called when the game starts or when spawned
 void ASword::BeginPlay()

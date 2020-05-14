@@ -29,8 +29,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Weapons)
 		float GetDamage(Rarity rarity);
 
-
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
