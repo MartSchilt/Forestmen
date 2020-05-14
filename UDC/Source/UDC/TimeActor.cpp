@@ -2,14 +2,16 @@
 
 
 #include "TimeActor.h"
+
+#include "PlayerCharacter.h"
 #include "TimerManager.h"
 #include "Engine/Engine.h"
 
 // Sets default values
 ATimeActor::ATimeActor()
 {
-	Seconds = 0;
-	Minutes = 2;
+	Seconds = 00;
+	Minutes = 1;
 	TickDown = true;
 	Count = 6;
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -21,7 +23,7 @@ void ATimeActor::BeginPlay()
 {
 	Super::BeginPlay();
 	//FTimerHandle object, this, the function we call every 1.0f seconds, the delay between calls, idk, delay before we begin with the loop
-	GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &ATimeActor::Timer, 0.2f, true, 1.0f);
+	GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &ATimeActor::Timer, 1.0f, true, 1.0f);
 }
 
 // Called every frame
@@ -44,9 +46,9 @@ void ATimeActor::Timer()
 				Minutes--;
 				if (Minutes < 0)
 				{
-					UE_LOG(LogTemp, Warning, TEXT("Time's up"));
-					
+					UE_LOG(LogTemp, Warning, TEXT("Time's up, you lost."));
 					TickDown = false;
+					GetWorldTimerManager().ClearTimer(MemberTimerHandle);
 				}
 				else if (Minutes >= 0)
 				{
@@ -58,19 +60,17 @@ void ATimeActor::Timer()
 				UE_LOG(LogTemp, Warning, TEXT("Time: %d : %d. Count: %d"), Minutes, Seconds, Count);
 			}
 		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Return to main menu"));
-			GetWorldTimerManager().ClearTimer(MemberTimerHandle);
-		}
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("You done did it"));
+		UE_LOG(LogTemp, Warning, TEXT("You won!"));
+		TickDown = false;
+		GetWorldTimerManager().ClearTimer(MemberTimerHandle);
 	}
 }
 
 void ATimeActor::Decrease()
 {
-	Count = 2;
+	UE_LOG(LogTemp, Warning, TEXT("Decreased from: %d, to: %d"), Count, Count-1);
+	Count--;
 }

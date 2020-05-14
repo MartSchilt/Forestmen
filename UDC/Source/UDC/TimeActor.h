@@ -25,15 +25,20 @@ public:
 
 	// Gameloop variables
 	void Timer();
-	int Seconds;
-	int Minutes;
-	bool TickDown;
-
-	FTimerHandle MemberTimerHandle;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		int Seconds;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		int Minutes;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		int Count;
 
 	UFUNCTION(BlueprintCallable)
 		void Decrease();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int Count;
+	bool TickDown;
+
+	FTimerHandle MemberTimerHandle;
 };
