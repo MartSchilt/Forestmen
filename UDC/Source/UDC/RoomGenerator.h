@@ -29,8 +29,24 @@ public:
 
 	UPROPERTY(BlueprintReadOnly)
 	FRotator rotation;
+	UPROPERTY(BlueprintReadOnly)
+	FVector middle;
+
 
 };
+
+
+USTRUCT(BlueprintType)
+struct FCorridor
+{
+	GENERATED_USTRUCT_BODY()
+public:
+	UPROPERTY(BlueprintReadOnly)
+	FVector from;
+	UPROPERTY(BlueprintReadOnly)
+	FVector to;
+};
+
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -59,19 +75,11 @@ public:
 		int distanceBetweenRooms;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
-		TArray<FName> StreamingLevelNames;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
-		TArray<FVector> roomPositions;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
-		TArray<FVector> roomSizes;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
 		TArray<FRoomData> roomsData;
 
-	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
-		FName GetStreamingLevelName();
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
+		TArray<FCorridor> Corridors;
+
 
 	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
 		float GetRandomRotation();
@@ -82,6 +90,11 @@ public:
 		bool tooManyTries() const;
 	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
 		void SetEntrances(int roomIndex, FTransform entranceTransform);
+
+	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
+		void CreateSpanningTree();
+	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
+		void CreateSpanningTreeV2();
 
 
 
@@ -95,5 +108,6 @@ public:
 
 	TArray<FVector> GenerateRoom() const;
 	bool isRoomOverlapping(FVector Room1Pos, FVector Room1Size, FVector Room2Pos, FVector Room2Size) const;
-		
+	TArray<int> findMinimalDistance(TArray<FVector> rest, TArray<FVector> completed, TMap<FVector, int> EntranceMap);
+	TArray<int> FindMinimalDistanceV2(TArray<FVector> rest, TArray<FVector> completed);
 };

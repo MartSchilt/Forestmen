@@ -12,29 +12,17 @@ URoomGenerator::URoomGenerator()
 
 	// Size of the room (plane is 100)
 	this->roomSize = 100, 0;
-	this->maxRoomScale = 10, 0;
-	this->minRoomScale = 10, 0;
+	this->maxRoomScale = 50, 0;
+	this->minRoomScale = 50, 0;
 	this->numberOfRetryPlacingRoom = 1000;
-	this->maxNumberOfRooms = 10;
+	this->maxNumberOfRooms = 20;
 	// Maximum size of the entire grid
-	this->maxGridSize = 100, 0;
+	this->maxGridSize = 500, 0;
 	this->distanceBetweenRooms = 15, 0;
 
-	// Level names
-	this->StreamingLevelNames.Add(FName(TEXT("Procedural01")));
-	this->StreamingLevelNames.Add(FName(TEXT("Procedural02")));
-	this->StreamingLevelNames.Add(FName(TEXT("Procedural03")));
 }
 
 
-FName URoomGenerator::GetStreamingLevelName()
-{
-	FName* data = StreamingLevelNames.GetData();
-
-	int r = FMath::RandRange(0, StreamingLevelNames.Num() - 1);
-
-	return data[r];
-}
 
 float URoomGenerator::GetRandomRotation()
 {
@@ -73,7 +61,7 @@ void URoomGenerator::TryPlaceRoom()
 
 bool URoomGenerator::tooManyTries() const
 {
-	if ((this->roomPositions.Num() != this->maxNumberOfRooms) && (this->countTriesPlacing < this->numberOfRetryPlacingRoom))
+	if ((this->roomsData.Num() != this->maxNumberOfRooms) && (this->countTriesPlacing < this->numberOfRetryPlacingRoom))
 	{
 		return false;
 	}
@@ -115,17 +103,195 @@ bool URoomGenerator::isRoomOverlapping(FVector Room1Pos, FVector Room1Size, FVec
 	return true;
 }
 
+TArray<int> URoomGenerator::findMinimalDistance(TArray<FVector> rest, TArray<FVector> done, TMap<FVector, int> EntranceMap)
+{
+
+	int tempDone;
+	int tempRest;
+
+	float minDist = MAX_FLT;
+
+	int counterDone = 0;
+
+
+	for (FVector posDone : done)
+	{
+		int counterRest = 0;
+		for (FVector posRest : rest)
+		{
+
+			int* Key1 = EntranceMap.Find(posDone);
+			int* Key2 = EntranceMap.Find(posRest);
+
+
+			if (*Key1 == *Key2)
+			{		
+				counterRest++;
+				continue;
+			}
+
+
+			float tempDist = FVector::Dist(posDone, posRest);
+
+			if (tempDist < minDist)
+			{
+				minDist = tempDist;
+				tempDone = counterDone;
+				tempRest = counterRest;
+			}
+			counterRest++;
+
+		}
+		counterDone++;
+	}	
+
+
+	TArray<int> ret;
+	ret.Add(tempDone);
+	ret.Add(tempRest);
+
+	return ret;
+
+
+
+
+}
+
 
 void URoomGenerator::SetEntrances(int roomIndex, FTransform entranceTransform)
 {
 
 	FVector roomPos = this->roomsData[roomIndex].roomPosition;
-	FVector loc = entranceTransform.GetLocation();
+	FVector size = this->roomsData[roomIndex].roomSize;
+	FVector loc = entranceTransform.GetLocation() / 100;
 	
 	FVector entrance = roomPos + loc;
 
 
+	//this->roomsData[roomIndex].middle = FVector(roomPos.X + size.X / 2, roomPos.Y + size.Y / 2, 0);
+	this->roomsData[roomIndex].middle = roomPos;
+
 	this->roomsData[roomIndex].entrancePositions.Add(entrance);
 }
+
+
+void URoomGenerator::CreateSpanningTreeV2()
+{
+	TArray<FVector> rest;
+	TArray<FVector> completed;
+
+	for (FRoomData room : this->roomsData)
+	{
+		rest.Add(room.middle);
+	}
+
+	completed.Add(rest[0]);
+	rest.RemoveAt(0);
+
+	while (rest.Num() != 0)
+	{
+		TArray<int> indexes = FindMinimalDistanceV2(rest, completed);
+
+		int doneIndex = indexes[0];
+		int restIndex = indexes[1];
+
+		FCorridor cor = FCorridor();
+		cor.from = completed[doneIndex];
+		cor.to = rest[restIndex];
+
+		completed.Add(rest[restIndex]);
+		rest.RemoveAt(restIndex);
+
+		this->Corridors.Add(cor);
+	}
+
+}
+
+
+TArray<int> URoomGenerator::FindMinimalDistanceV2(TArray<FVector> rest, TArray<FVector> completed)
+{
+
+	float minDist = MAX_FLT;
+	int indexDone;
+	int indexRest;
+
+	int counterDone = 0;
+	for (FVector posCompleted : completed)
+	{
+		int counterRest = 0;
+		for (FVector posRest : rest)
+		{
+			float dist = FVector::Dist(posCompleted, posRest);
+
+			if (dist < minDist)
+			{
+				minDist = dist;
+				indexDone = counterDone;
+				indexRest = counterRest;	
+			}
+
+			counterRest++;
+
+		}
+
+		counterDone++;
+	}
+
+	TArray<int> ret;
+
+	ret.Add(indexDone);
+	ret.Add(indexRest);
+
+	return ret;
+
+}
+
+
+void URoomGenerator::CreateSpanningTree()
+{
+	// Vector is the position for easy look up and the int is the room number
+	TMap<FVector, int> entranceMap;
+	TArray<FVector> rest;
+	TArray<FVector> completed;
+
+	TArray<FCorridor> edges;
+
+	for (FRoomData room : this->roomsData)
+	{
+		for (FVector entrance : room.entrancePositions)
+		{
+			rest.Add(entrance);
+			entranceMap.Add(entrance, room.roomNumber);
+		}
+	}
+
+
+
+
+	completed.Add(rest[0]);
+	rest.RemoveAt(0);
+
+	while (rest.Num() != 0)
+	{
+		TArray<int> indexes = findMinimalDistance(rest, completed, entranceMap);
+
+		int indexDone = indexes[0];
+		int indexRest = indexes[1];
+
+		FCorridor edge = FCorridor();
+		edge.from = completed[indexDone];
+		edge.to = rest[indexRest];
+
+		edges.Add(edge);
+
+		completed.Add(rest[indexRest]);
+		rest.RemoveAt(indexRest);
+
+	}
+
+	this->Corridors = edges;
+
+}
+
 
 
