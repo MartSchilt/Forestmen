@@ -2,7 +2,6 @@
 
 
 #include "TimeActor.h"
-
 #include "PlayerCharacter.h"
 #include "TimerManager.h"
 #include "Engine/Engine.h"
@@ -35,8 +34,6 @@ void ATimeActor::Tick(float DeltaTime)
 
 void ATimeActor::Timer()
 {
-	// Mooie code
-	
 	// If enemies alive
 	if (Count > 0)
 	{
@@ -67,6 +64,7 @@ void ATimeActor::Timer()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("You won!"));
 		TickDown = false;
+		
 		GetWorldTimerManager().ClearTimer(MemberTimerHandle);
 	}
 }
