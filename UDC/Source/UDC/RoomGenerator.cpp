@@ -182,7 +182,7 @@ void URoomGenerator::CreateSpanningTreeV2()
 
 	for (FRoomData room : this->roomsData)
 	{
-		rest.Add(room.middle);
+		rest.Add(room.roomPosition);
 	}
 
 	completed.Add(rest[0]);
