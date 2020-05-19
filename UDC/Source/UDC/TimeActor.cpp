@@ -10,7 +10,7 @@
 ATimeActor::ATimeActor()
 {
 	Seconds = 00;
-	Minutes = 5;
+	Minutes = 0;
 	TickDown = true;
 	Count = 6;
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -38,7 +38,8 @@ void ATimeActor::Timer()
 	{
 		// If timer hasn't ended yet
 		if (TickDown) {
-			Seconds--;
+			Seconds++;
+			/*
 			if (Seconds < 0) {
 				Minutes--;
 				if (Minutes < 0)
@@ -56,6 +57,7 @@ void ATimeActor::Timer()
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Time: %d : %d. Count: %d"), Minutes, Seconds, Count);
 			}
+			*/
 		}
 	}
 	else
