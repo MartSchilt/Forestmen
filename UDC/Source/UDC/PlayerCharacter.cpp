@@ -13,8 +13,8 @@ APlayerCharacter::APlayerCharacter()
 	JumpVelocity = 400.0f;
 	HenkPoints = 100.0f;
 	HP_Max = 100.0f;
-	HP_Heal = 10.0f;
-	HP_Decrease = 2.0f;
+	HP_Heal = 20.0f;
+	HP_Decrease = 4.0f;
 	ManaPoints = 80.0f;
 	MP_Max = 80.0f;
 	MP_Recharge = 10.0f;
@@ -147,5 +147,12 @@ void APlayerCharacter::OnBeginOverlap(UPrimitiveComponent * HitComp,
 
 		OtherActor->Destroy();
 	}
+}
+
+void APlayerCharacter::Heal()
+{
+	HenkPoints += HP_Heal;
+
+	if (HenkPoints > HP_Max) HenkPoints = HP_Max;
 }
 
