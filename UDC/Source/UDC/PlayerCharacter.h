@@ -41,12 +41,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		float JumpVelocity;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float HenkPoints;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		float HP_Max;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		float HP_Heal;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		float HP_Decrease;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		float ManaPoints;
@@ -62,6 +64,9 @@ public:
 		void OnBeginOverlap(class UPrimitiveComponent* HitComp,
 			class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
 			int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	
+	UFUNCTION(BlueprintCallable, Category = Player)
+		void Heal();
 
 	UPROPERTY(EditAnywhere, Category = "UI HUD")
 		TSubclassOf<UUserWidget> Player_HUD_Class;
