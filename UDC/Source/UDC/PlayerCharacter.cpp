@@ -14,6 +14,7 @@ APlayerCharacter::APlayerCharacter()
 	HenkPoints = 100.0f;
 	HP_Max = 100.0f;
 	HP_Heal = 10.0f;
+	HP_Decrease = 2.0f;
 	ManaPoints = 80.0f;
 	MP_Max = 80.0f;
 	MP_Recharge = 10.0f;
@@ -69,7 +70,9 @@ void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (ManaPoints > 0) ManaPoints -= DeltaTime * 1.0f;
+	//if (ManaPoints > 0) ManaPoints -= DeltaTime * 1.0f;
+
+	if (HenkPoints > 0) HenkPoints -= DeltaTime * HP_Decrease;
 
 	if (HenkPoints <= 0) {
 		if (!bDead) {
