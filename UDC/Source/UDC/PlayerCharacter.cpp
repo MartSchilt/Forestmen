@@ -152,6 +152,7 @@ void APlayerCharacter::OnBeginOverlap(UPrimitiveComponent * HitComp,
 void APlayerCharacter::Heal()
 {
 	HenkPoints += HP_Heal;
+	Coins += 5;
 
 	if (HenkPoints > HP_Max) HenkPoints = HP_Max;
 }
