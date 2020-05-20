@@ -9,6 +9,17 @@
 // Sets default values
 APlayerCharacter::APlayerCharacter()
 {
+	bDead = false;
+	JumpVelocity = 400.0f;
+	HenkPoints = 100.0f;
+	HP_Max = 100.0f;
+	HP_Heal = 20.0f;
+	HP_Decrease = 4.0f;
+	ManaPoints = 80.0f;
+	MP_Max = 80.0f;
+	MP_Recharge = 10.0f;
+	Coins = 0;
+
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -22,7 +33,7 @@ APlayerCharacter::APlayerCharacter()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
 	// Jump Height
-	GetCharacterMovement()->JumpZVelocity = 600.0f;
+	GetCharacterMovement()->JumpZVelocity = JumpVelocity;
 	// How much you can move in the air
 	GetCharacterMovement()->AirControl = 0.2f;
 	
@@ -38,10 +49,6 @@ APlayerCharacter::APlayerCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
 
-	bDead = false;
-	Power = 100.0f;
-	Power_Treshold = 5.0f;
-
 }
 
 // Called when the game starts or when spawned
@@ -51,9 +58,9 @@ void APlayerCharacter::BeginPlay()
 
 	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnBeginOverlap);
 
-	if (Player_Power_Widget_Class != nullptr) {
-		Player_Power_Widget = CreateWidget(GetWorld(), Player_Power_Widget_Class);
-		Player_Power_Widget->AddToViewport();
+	if (Player_HUD_Class != nullptr) {
+		Player_HUD = CreateWidget(GetWorld(), Player_HUD_Class);
+		Player_HUD->AddToViewport();
 	}
 	
 }
@@ -63,9 +70,11 @@ void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//Power -= DeltaTime * Power_Treshold;
+	//if (ManaPoints > 0) ManaPoints -= DeltaTime * 1.0f;
 
-	if (Power <= 0) {
+	if (HenkPoints > 0) HenkPoints -= DeltaTime * HP_Decrease;
+
+	if (HenkPoints <= 0) {
 		if (!bDead) {
 			bDead = true;
 
@@ -133,10 +142,18 @@ void APlayerCharacter::OnBeginOverlap(UPrimitiveComponent * HitComp,
 	if (OtherActor->ActorHasTag("Recharge")) {
 		UE_LOG(LogTemp, Warning, TEXT("Collided with"));
 
-		Power -= 10.0f;
-		if (Power > 100.0f) Power = 100.0f;
+		ManaPoints += MP_Recharge;
+		if (ManaPoints > MP_Max) ManaPoints = MP_Max;
 
 		OtherActor->Destroy();
 	}
+}
+
+void APlayerCharacter::Heal()
+{
+	HenkPoints += HP_Heal;
+	Coins += 5;
+
+	if (HenkPoints > HP_Max) HenkPoints = HP_Max;
 }
 

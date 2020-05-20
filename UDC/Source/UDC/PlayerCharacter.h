@@ -38,21 +38,40 @@ public:
 
 	bool bDead;
 
-	UPROPERTY(VisibleAnywhere, BluePrintReadOnly)
-		float Power;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		float JumpVelocity;
 
-	UPROPERTY(EditAnywhere)
-		float Power_Treshold;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float HenkPoints;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		float HP_Max;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		float HP_Heal;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		float HP_Decrease;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		float ManaPoints;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		float MP_Max;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		float MP_Recharge;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		int Coins;
 
 	UFUNCTION()
 		void OnBeginOverlap(class UPrimitiveComponent* HitComp,
 			class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
 			int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	
+	UFUNCTION(BlueprintCallable, Category = Player)
+		void Heal();
 
 	UPROPERTY(EditAnywhere, Category = "UI HUD")
-		TSubclassOf<UUserWidget> Player_Power_Widget_Class;
+		TSubclassOf<UUserWidget> Player_HUD_Class;
 
-	UUserWidget* Player_Power_Widget;
+	UUserWidget* Player_HUD;
 
 	void RestartGame();
 
