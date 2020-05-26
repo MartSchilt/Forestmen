@@ -46,6 +46,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		float HP_Max;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		float HP_Min;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		float HP_Heal;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		float HP_Decrease;
@@ -67,6 +69,10 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = Player)
 		void Heal();
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		void TakeDamage(float d);
+
 
 	UPROPERTY(EditAnywhere, Category = "UI HUD")
 		TSubclassOf<UUserWidget> Player_HUD_Class;
