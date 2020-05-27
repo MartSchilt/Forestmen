@@ -72,7 +72,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 	//if (ManaPoints > 0) ManaPoints -= DeltaTime * 1.0f;
 
-	if (HenkPoints > 0) HenkPoints -= DeltaTime * HP_Decrease;
+	//if (HenkPoints > 0) HenkPoints -= DeltaTime * HP_Decrease;
 
 	if (HenkPoints <= 0) {
 		if (!bDead) {

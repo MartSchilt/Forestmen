@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "RoomGenerator.h"
 
 // Sets default values for this component's properties
@@ -158,31 +155,21 @@ TArray<int> URoomGenerator::findMinimalDistance(TArray<FVector> rest, TArray<FVe
 }
 
 
-void URoomGenerator::SetEntrances(int roomIndex, FTransform entranceTransform)
-{
-
-	FVector roomPos = this->roomsData[roomIndex].roomPosition;
-	FVector size = this->roomsData[roomIndex].roomSize;
-	FVector loc = entranceTransform.GetLocation() / 100;
-	
-	FVector entrance = roomPos + loc;
-
-
-	//this->roomsData[roomIndex].middle = FVector(roomPos.X + size.X / 2, roomPos.Y + size.Y / 2, 0);
-	this->roomsData[roomIndex].middle = roomPos;
-
-	this->roomsData[roomIndex].entrancePositions.Add(entrance);
-}
-
-
 void URoomGenerator::CreateSpanningTreeV2()
 {
 	TArray<FVector> rest;
 	TArray<FVector> completed;
 
-	for (FRoomData room : this->roomsData)
+	for (int i = 0; i < this->roomsData.Num(); i++)
 	{
-		rest.Add(room.roomPosition);
+		this->roomsData[i].middle = (FVector(this->roomsData[i].roomPosition.X + this->roomsData[i].roomSize.X / 2, this->roomsData[i].roomPosition.Y + this->roomsData[i].roomSize.Y / 2, 0));
+
+		FVector middle = this->roomsData[i].middle;
+		middle.Z = this->roomsData[i].roomNumber;
+
+		rest.Add(middle);
+
+	
 	}
 
 	completed.Add(rest[0]);
@@ -196,14 +183,121 @@ void URoomGenerator::CreateSpanningTreeV2()
 		int restIndex = indexes[1];
 
 		FCorridor cor = FCorridor();
-		cor.from = completed[doneIndex];
-		cor.to = rest[restIndex];
+		cor.from = completed[doneIndex].Z;
+		cor.to = rest[restIndex].Z;
 
 		completed.Add(rest[restIndex]);
 		rest.RemoveAt(restIndex);
 
 		this->Corridors.Add(cor);
 	}
+
+	for (FCorridor corridor : this->Corridors)
+	{
+		CreateCorridor(corridor);
+	}
+
+
+}
+
+
+void URoomGenerator::CreateCorridor(FCorridor corridor)
+{
+
+	FRoomData from = this->roomsData[corridor.from];
+	FRoomData to = this->roomsData[corridor.to];
+
+
+	FVector Room1Pos = from.roomPosition;
+	FVector Room1Size = from.roomSize;
+
+	FVector Room2Pos = to.roomPosition;
+	FVector Room2Size = to.roomSize;
+
+	int ax1 = Room1Pos.X;
+	int ax2 = Room1Pos.X + Room1Size.X;
+
+	int ay1 = Room1Pos.Y;
+	int ay2 = Room1Pos.Y + Room1Size.Y;
+
+	int bx1 = Room2Pos.X;
+	int bx2 = Room2Pos.X + Room2Size.X;
+
+	int by1 = Room2Pos.Y;
+	int by2 = Room2Pos.Y + Room2Size.Y;
+
+	int max = FGenericPlatformMath::Max(ax1, bx1);
+	int min = FGenericPlatformMath::Min(ax2, bx2);
+
+
+	// Overlap in X
+	if (max <= min)
+	{
+
+		int rnd = FMath::RandRange(max, min);
+
+
+		// Room b is higher
+		if (ay1 <= by1)
+		{
+			this->RoomStart.Add(FVector(rnd, ay2 + 5, 0));
+			this->RoomEnd.Add(FVector(rnd, by1- 5, 0));
+		}
+		else
+		{
+			this->RoomStart.Add(FVector(rnd, by2 + 5, 0));
+			this->RoomEnd.Add(FVector(rnd, ay1 - 5, 0));
+		}
+
+		return;
+
+
+	}
+
+
+	max = FMath::Max(ay1, by1);
+	min = FMath::Min(ay2, by2);
+
+
+	// Overlap in Y
+	if (max <= min)
+	{
+		int rnd = FMath::RandRange(max, min);
+
+		if (ax1 < bx1)
+		{
+
+			this->RoomStart.Add(FVector(ax2 + 5, rnd, 0));
+			this->RoomEnd.Add(FVector(bx1 - 5, rnd, 0));
+		}
+		else
+		{
+			this->RoomStart.Add(FVector(bx2 + 5, rnd, 0));
+			this->RoomEnd.Add(FVector(ax1 - 5, rnd, 0));
+		}
+
+		return;
+	}
+
+
+	// No overlap
+	int y = FMath::RandRange(ay1, ay2);
+	int x = FMath::RandRange(bx1, bx2);
+
+	FVector path1 = FVector(ax2, y, 0);
+	FVector path2 = FVector(x, by1, 0);
+	FVector path3 = FVector(x, y, 0);
+
+
+	this->RoomCorridorStart.Add(path1);
+	this->RoomCorridorStart.Add(path2);
+
+	this->RoomCorridorEnd.Add(path3);
+	this->RoomCorridorEnd.Add(path3);
+
+
+
+
 
 }
 
@@ -246,52 +340,4 @@ TArray<int> URoomGenerator::FindMinimalDistanceV2(TArray<FVector> rest, TArray<F
 
 }
 
-
-void URoomGenerator::CreateSpanningTree()
-{
-	// Vector is the position for easy look up and the int is the room number
-	TMap<FVector, int> entranceMap;
-	TArray<FVector> rest;
-	TArray<FVector> completed;
-
-	TArray<FCorridor> edges;
-
-	for (FRoomData room : this->roomsData)
-	{
-		for (FVector entrance : room.entrancePositions)
-		{
-			rest.Add(entrance);
-			entranceMap.Add(entrance, room.roomNumber);
-		}
-	}
-
-
-
-
-	completed.Add(rest[0]);
-	rest.RemoveAt(0);
-
-	while (rest.Num() != 0)
-	{
-		TArray<int> indexes = findMinimalDistance(rest, completed, entranceMap);
-
-		int indexDone = indexes[0];
-		int indexRest = indexes[1];
-
-		FCorridor edge = FCorridor();
-		edge.from = completed[indexDone];
-		edge.to = rest[indexRest];
-
-		edges.Add(edge);
-
-		completed.Add(rest[indexRest]);
-		rest.RemoveAt(indexRest);
-
-	}
-
-	this->Corridors = edges;
-
-}
-
-
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
