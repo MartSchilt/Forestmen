@@ -39,6 +39,29 @@ public:
 };
 
 
+USTRUCT(BlueprintType)
+struct FCorridorStruct
+{
+	GENERATED_USTRUCT_BODY()
+
+public:
+	UPROPERTY(BlueprintReadOnly)
+		FVector from;
+	UPROPERTY(BlueprintReadOnly)
+		FVector to;
+
+};
+
+
+UENUM(BlueprintType)
+enum CorridorType
+{
+	Vertical,
+	Horizontal,
+	Double
+};
+
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UDC_API UWorldGenerator : public UActorComponent
@@ -70,10 +93,17 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
 	TArray<FRoomStruct> rooms;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
 	TArray<FRoomConnection> roomConnections;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
+	TArray<FCorridorStruct> corridors;
 
 	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
 		void SpawnRooms();
+	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
+		void CreateCorridors();
 
 protected:
 
@@ -85,6 +115,7 @@ public:
 private:	
 	
 	int countTriesplacing;
+	int corridorWidth;
 
 	void TryPlaceRoom();
 	FRoomStruct GenerateRoom();
@@ -92,6 +123,6 @@ private:
 	bool isRoomOverlapping(FRoomStruct existingRoom, FRoomStruct newRoom);
 	void CreateSpanningTree();
 	FRoomConnection FindMinimalDistance(TArray<FVector> rest, TArray<FVector> done);
-
+	void FindCorridorOverlap(FRoomConnection connection);
 
 };

@@ -25,6 +25,7 @@ UWorldGenerator::UWorldGenerator()
 
 	// Size of 1 room in X and Y direction
 	this->roomSize = 50;
+	this->corridorWidth = 4;
 
 	// Distance between rooms so they won't spawn next to eachother
 	this->minDistanceBetweenRooms = 15;
@@ -49,10 +50,90 @@ void UWorldGenerator::SpawnRooms()
 	}
 
 	CreateSpanningTree();
-
+	CreateCorridors();
 
 
 }
+
+void UWorldGenerator::CreateCorridors()
+{
+	for (FRoomConnection connection : this->roomConnections)
+	{
+		FindCorridorOverlap(connection);
+	}
+}
+
+
+void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
+{
+	FRoomStruct from = this->rooms[connection.from];
+	FRoomStruct to = this->rooms[connection.to];
+
+	int ax1 = from.roomPosition.X;
+	int ax2 = from.roomPosition.X + from.roomSize.X;
+
+	int ay1 = from.roomPosition.Y;
+	int ay2 = from.roomPosition.Y + from.roomSize.Y;
+
+	int bx1 = to.roomPosition.X;
+	int bx2 = to.roomPosition.X + to.roomSize.X;
+
+	int by1 = to.roomPosition.Y;
+	int by2 = to.roomPosition.Y + to.roomSize.Y;
+
+	int max = FMath::Max(ax1, bx1);
+	int min = FMath::Min(ax2, bx2);
+
+
+	// Check overlap x;
+	if (max <= min && (min - max) >= this->corridorWidth)
+	{
+		//int x = min - (min - max) / 2;
+		int x = max;
+		FCorridorStruct temp = FCorridorStruct();
+
+		if (ay1 < by1)
+		{
+			temp.from = FVector(x, ay2, 0);
+			temp.to = FVector(x, by1, 0);
+		}
+		else
+		{
+			temp.from = FVector(x, by2, 0);
+			temp.to = FVector(x, ay1, 0);
+		}
+
+		this->corridors.Add(temp);
+		return;
+	}
+
+	// Check overlap y
+	max = FMath::Max(ay1, by1);
+	min = FMath::Min(ay2, by2);
+
+	if (max <= min && (min - max) >= this->corridorWidth)
+	{
+		int y = max;
+
+		FCorridorStruct temp = FCorridorStruct();
+		if (ax1 < bx1)
+		{
+			temp.from = FVector(ax2, y, 0);
+			temp.to = FVector(bx1, y, 0);
+		}
+		else
+		{
+			temp.from = FVector(bx2, y, 0);
+			temp.to = FVector(ax1, y, 0);
+		}
+
+		this->corridors.Add(temp);
+		return;
+	}
+
+
+}
+
 
 // Called every frame
 void UWorldGenerator::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
