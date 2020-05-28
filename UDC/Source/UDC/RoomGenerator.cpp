@@ -240,13 +240,13 @@ void URoomGenerator::CreateCorridor(FCorridor corridor)
 		// Room b is higher
 		if (ay1 <= by1)
 		{
-			this->RoomStart.Add(FVector(rnd, ay2 + 5, 0));
-			this->RoomEnd.Add(FVector(rnd, by1- 5, 0));
+			this->RoomStart.Add(FVector(rnd, ay2, 0));
+			this->RoomEnd.Add(FVector(rnd, by1, 0));
 		}
 		else
 		{
-			this->RoomStart.Add(FVector(rnd, by2 + 5, 0));
-			this->RoomEnd.Add(FVector(rnd, ay1 - 5, 0));
+			this->RoomStart.Add(FVector(rnd, by2, 0));
+			this->RoomEnd.Add(FVector(rnd, ay1, 0));
 		}
 
 		return;
@@ -267,13 +267,13 @@ void URoomGenerator::CreateCorridor(FCorridor corridor)
 		if (ax1 < bx1)
 		{
 
-			this->RoomStart.Add(FVector(ax2 + 5, rnd, 0));
-			this->RoomEnd.Add(FVector(bx1 - 5, rnd, 0));
+			this->RoomStart.Add(FVector(ax2, rnd, 0));
+			this->RoomEnd.Add(FVector(bx1, rnd, 0));
 		}
 		else
 		{
-			this->RoomStart.Add(FVector(bx2 + 5, rnd, 0));
-			this->RoomEnd.Add(FVector(ax1 - 5, rnd, 0));
+			this->RoomStart.Add(FVector(bx2, rnd, 0));
+			this->RoomEnd.Add(FVector(ax1, rnd, 0));
 		}
 
 		return;
