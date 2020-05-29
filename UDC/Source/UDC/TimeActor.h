@@ -31,14 +31,6 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		int Minutes;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		int Count;
-
-	UFUNCTION(BlueprintCallable)
-		void Decrease();
-
-	bool TickDown;
 
 	FTimerHandle MemberTimerHandle;
 };
