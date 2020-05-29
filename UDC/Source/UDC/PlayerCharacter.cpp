@@ -13,6 +13,7 @@ APlayerCharacter::APlayerCharacter()
 	JumpVelocity = 400.0f;
 	HenkPoints = 100.0f;
 	HP_Max = 100.0f;
+	HP_Min = 0.0f;
 	HP_Heal = 20.0f;
 	HP_Decrease = 4.0f;
 	ManaPoints = 80.0f;
@@ -20,7 +21,7 @@ APlayerCharacter::APlayerCharacter()
 	MP_Recharge = 10.0f;
 	Coins = 0;
 
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	GetCapsuleComponent()->InitCapsuleSize(42.0f, 96.0f);
@@ -36,7 +37,7 @@ APlayerCharacter::APlayerCharacter()
 	GetCharacterMovement()->JumpZVelocity = JumpVelocity;
 	// How much you can move in the air
 	GetCharacterMovement()->AirControl = 0.2f;
-	
+
 	// Attach the camera with a boom
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
@@ -62,7 +63,7 @@ void APlayerCharacter::BeginPlay()
 		Player_HUD = CreateWidget(GetWorld(), Player_HUD_Class);
 		Player_HUD->AddToViewport();
 	}
-	
+
 }
 
 // Called every frame
@@ -134,9 +135,9 @@ void APlayerCharacter::RestartGame()
 	UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
 }
 
-void APlayerCharacter::OnBeginOverlap(UPrimitiveComponent * HitComp, 
-	AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, 
-	bool bFromSweep, const FHitResult & SweepResult)
+void APlayerCharacter::OnBeginOverlap(UPrimitiveComponent* HitComp,
+	AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
+	bool bFromSweep, const FHitResult& SweepResult)
 {
 	// Pickable item has the tag "Recharge"
 	if (OtherActor->ActorHasTag("Recharge")) {
@@ -155,5 +156,12 @@ void APlayerCharacter::Heal()
 	Coins += 5;
 
 	if (HenkPoints > HP_Max) HenkPoints = HP_Max;
+}
+
+void APlayerCharacter::TakeDamage(float d) 
+{
+	HenkPoints -= d;
+
+	if (HenkPoints < HP_Min) HenkPoints = HP_Min;
 }
 
