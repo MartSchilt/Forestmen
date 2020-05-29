@@ -14,21 +14,21 @@ UWorldGenerator::UWorldGenerator()
 	// Set default values for world generation
 
 	// Size of the map
-	this->mapY = 500;
-	this->mapX = 500;
+	this->mapY = 250;
+	this->mapX = 250;
 
 	// Size of one tile in UE, when objects are placed in the world the vectors should be multiplied by this value
 	this->tileSize = 100;
 
 	// Max amount of rooms in our world
-	this->maxNumberOfRooms = 20;
+	this->maxNumberOfRooms = 6;
 
 	// Size of 1 room in X and Y direction
 	this->roomSize = 50;
 	this->corridorWidth = 4;
 
 	// Distance between rooms so they won't spawn next to eachother
-	this->minDistanceBetweenRooms = 15;
+	this->minDistanceBetweenRooms = 4;
 
 	// Number of retries if this number is hit the world gen will stop spawning rooms
 	this->maxNumberOfRetries = 100;
@@ -104,6 +104,14 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 		}
 
 		this->corridors.Add(temp);
+
+		for (int i = 0; i < 3; i++)
+		{
+			temp.from.X++;
+			temp.to.X++;
+			this->corridors.Add(temp);
+		}
+
 		return;
 	}
 
@@ -128,6 +136,13 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 		}
 
 		this->corridors.Add(temp);
+
+		for (int i = 0; i < 3; i++)
+		{
+			temp.from.Y++;
+			temp.to.Y++;
+			this->corridors.Add(temp);
+		}		
 		return;
 	}
 
@@ -157,6 +172,9 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 		if (ay1 > by1)
 		{
 			vertical.to = FVector(x2, by2, 0);
+			horizontal.from.Y += 3;
+			horizontal.to.Y += 3;
+			vertical.from.Y += 3;
 		}
 		else
 		{
@@ -164,7 +182,25 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 		}
 
 		this->corridors.Add(vertical);
+
+		for (int i = 0; i < 3; i++)
+		{
+			vertical.from.X++;
+			vertical.to.X++;
+			this->corridors.Add(vertical);
+		}
+
+
 		this->corridors.Add(horizontal);
+
+		for (int i = 0; i < 3; i++)
+		{
+			horizontal.from.Y++;
+			horizontal.to.Y++;
+			this->corridors.Add(horizontal);
+		}
+
+
 		return;
 
 	}
@@ -181,13 +217,35 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 		if (ay1 > by1)
 		{
 			vertical.to = FVector(x2, by2, 0);
+
 		}
 		else
 		{
+			horizontal.from.Y += 3;
+			horizontal.to.Y += 3;
+			vertical.from.Y += 3;
 			vertical.to = FVector(x2, by1, 0);
 		}
 		this->corridors.Add(vertical);
+
+		for (int i = 0; i < 3; i++)
+		{
+			vertical.from.X++;
+			vertical.to.X++;
+			this->corridors.Add(vertical);
+		}
+
+
 		this->corridors.Add(horizontal);
+
+		for (int i = 0; i < 3; i++)
+		{
+			horizontal.from.Y++;
+			horizontal.to.Y++;
+			this->corridors.Add(horizontal);
+		}
+
+
 		return;
 
 
