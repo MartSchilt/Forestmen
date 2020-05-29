@@ -131,6 +131,70 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 		return;
 	}
 
+	int xMax = FMath::Max(ax1, bx1);
+	int xMin = FMath::Min(ax2, bx2);
+
+	int yMax = FMath::Max(ay1, by1);
+	int yMin = FMath::Min(ay2, by2);
+
+
+	// Room 1 is upper left from room 2
+
+	FCorridorStruct horizontal;
+	FCorridorStruct vertical;
+
+	if (ax1 < bx1)
+	{
+		int x1 = ax2;
+		int x2 = bx1 + 4;
+
+		int y1 = FMath::RandRange(ay1, ay2);
+
+
+		horizontal.from = FVector(x1, y1, 0);
+		horizontal.to = FVector(x2, y1, 0);
+		vertical.from = FVector(x2, y1, 0);
+		if (ay1 > by1)
+		{
+			vertical.to = FVector(x2, by2, 0);
+		}
+		else
+		{
+			vertical.to = FVector(x2, by1, 0);
+		}
+
+		this->corridors.Add(vertical);
+		this->corridors.Add(horizontal);
+		return;
+
+	}
+	else
+	{
+		int x1 = ax1;
+		int x2 = bx2 - 4;
+		int y1 = FMath::RandRange(ay1, ay2);
+
+		horizontal.from = FVector(x1, y1, 0);
+		horizontal.to = FVector(x2, y1, 0);
+		vertical.from = FVector(x2, y1, 0);
+
+		if (ay1 > by1)
+		{
+			vertical.to = FVector(x2, by2, 0);
+		}
+		else
+		{
+			vertical.to = FVector(x2, by1, 0);
+		}
+		this->corridors.Add(vertical);
+		this->corridors.Add(horizontal);
+		return;
+
+
+	}
+
+
+
 
 }
 
