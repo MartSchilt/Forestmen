@@ -10,8 +10,8 @@
 ANonPlayablaCharacter::ANonPlayablaCharacter()
 {
 	bDead = false;
-	HenkPoints = 100.0f;
-	HP_Max = 100.0f;
+	HenkPoints = 750.0f;
+	HP_Max = 1000.0f;
 	HP_Heal = 10.0f;
 	ManaPoints = 80.0f;
 	MP_Max = 80.0f;
