@@ -28,5 +28,5 @@ void APlayerCharacter_GameMode::SpawnPlayerRecharge()
 	FRotator SpawnRotation = FRotator(0.0f, 0.0f, 0.0f);
 
 	// Don't worry about the red line, it works when building
-	GetWorld()->SpawnActor(PlayerRecharge, &SpawnPosition, &SpawnRotation);
+	//GetWorld()->SpawnActor(PlayerRecharge, &SpawnPosition, &SpawnRotation);
 }

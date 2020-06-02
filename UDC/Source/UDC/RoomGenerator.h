@@ -42,9 +42,9 @@ struct FCorridor
 	GENERATED_USTRUCT_BODY()
 public:
 	UPROPERTY(BlueprintReadOnly)
-	FVector from;
+	int from;
 	UPROPERTY(BlueprintReadOnly)
-	FVector to;
+	int to;
 };
 
 
@@ -80,7 +80,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
 		TArray<FCorridor> Corridors;
 
-
 	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
 		float GetRandomRotation();
 
@@ -89,14 +88,19 @@ public:
 	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
 		bool tooManyTries() const;
 	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
-		void SetEntrances(int roomIndex, FTransform entranceTransform);
-
-	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
-		void CreateSpanningTree();
-	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
 		void CreateSpanningTreeV2();
 
+	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
+		void CreateCorridor(FCorridor corridor);
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
+		TArray<FVector> RoomStart;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
+		TArray<FVector> RoomEnd;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
+		TArray<FVector> RoomCorridorStart;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
+		TArray<FVector> RoomCorridorEnd;
 
 
 protected:
