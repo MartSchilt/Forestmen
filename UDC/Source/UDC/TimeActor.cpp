@@ -9,10 +9,8 @@
 // Sets default values
 ATimeActor::ATimeActor()
 {
-	Seconds = 00;
+	Seconds = 0;
 	Minutes = 0;
-	TickDown = true;
-	Count = 6;
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 }
@@ -33,44 +31,9 @@ void ATimeActor::Tick(float DeltaTime)
 
 void ATimeActor::Timer()
 {
-	// If enemies alive
-	if (Count > 0)
-	{
-		// If timer hasn't ended yet
-		if (TickDown) {
-			Seconds++;
-			/*
-			if (Seconds < 0) {
-				Minutes--;
-				if (Minutes < 0)
-				{
-					UE_LOG(LogTemp, Warning, TEXT("Time's up, you lost."));
-					TickDown = false;
-					GetWorldTimerManager().ClearTimer(MemberTimerHandle);
-				}
-				else if (Minutes >= 0)
-				{
-					Seconds = 59;
-					UE_LOG(LogTemp, Warning, TEXT("Time: %d : %d. Count: %d"), Minutes, Seconds, Count);
-				}
-			} else
-			{
-				UE_LOG(LogTemp, Warning, TEXT("Time: %d : %d. Count: %d"), Minutes, Seconds, Count);
-			}
-			*/
-		}
+	Seconds++;
+	if (Seconds == 60) {
+		Minutes++;
+		Seconds = 0;
 	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("You won!"));
-		TickDown = false;
-		
-		GetWorldTimerManager().ClearTimer(MemberTimerHandle);
-	}
-}
-
-void ATimeActor::Decrease()
-{
-	UE_LOG(LogTemp, Warning, TEXT("Decreased from: %d, to: %d"), Count, Count-1);
-	Count--;
 }
