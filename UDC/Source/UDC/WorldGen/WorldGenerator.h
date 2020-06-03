@@ -7,6 +7,15 @@
 #include "WorldGenerator.generated.h"
 
 
+UENUM(BlueprintType)
+enum class ERoomType : uint8 
+{
+	Spawn	UMETA(DisplayName="Spawn"),
+	Normal	UMETA(DisplayName = "Normal"),
+	Boss	UMETA(DisplayName = "Boss"),
+};
+
+
 USTRUCT(BlueprintType)
 struct FRoomStruct
 {
@@ -23,7 +32,8 @@ public:
 		FVector roomCenter;
 	UPROPERTY(BlueprintReadOnly)
 		TArray<FVector> roomEntrances;
-
+	UPROPERTY(BlueprintReadOnly)
+		ERoomType roomType;
 };
 
 
@@ -52,14 +62,6 @@ public:
 
 };
 
-
-UENUM(BlueprintType)
-enum CorridorType
-{
-	Vertical,
-	Horizontal,
-	Double
-};
 
 
 
@@ -124,5 +126,8 @@ private:
 	void CreateSpanningTree();
 	FRoomConnection FindMinimalDistance(TArray<FVector> rest, TArray<FVector> done);
 	void FindCorridorOverlap(FRoomConnection connection);
+
+	void ChooseRoomTypes();
+
 
 };

@@ -51,7 +51,7 @@ void UWorldGenerator::SpawnRooms()
 
 	CreateSpanningTree();
 	CreateCorridors();
-
+	ChooseRoomTypes();
 
 }
 
@@ -251,6 +251,36 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 
 	}
 
+
+
+
+}
+
+void UWorldGenerator::ChooseRoomTypes()
+{
+	int startIndex = FMath::RandRange(0, this->rooms.Num());
+	this->rooms[startIndex].roomType = ERoomType::Spawn;
+	
+	int bossIndex = 0;
+
+	while (true)
+	{
+		bossIndex = FMath::RandRange(0, this->rooms.Num());
+		if (bossIndex != startIndex)
+			break;
+	}
+
+	this->rooms[bossIndex].roomType = ERoomType::Boss;
+
+	for (int i = 0; i < this->rooms.Num(); i++)
+	{
+		if (i == startIndex || i == bossIndex)
+		{
+			continue;
+		}
+
+		this->rooms[i].roomType = ERoomType::Normal;
+	}
 
 
 
