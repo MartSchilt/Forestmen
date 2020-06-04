@@ -34,6 +34,8 @@ public:
 		TArray<FVector> roomEntrances;
 	UPROPERTY(BlueprintReadOnly)
 		ERoomType roomType;
+	UPROPERTY(BlueprintReadOnly)
+		int32 numberOfEnemies;
 };
 
 
@@ -94,6 +96,10 @@ public:
 		int minDistanceBetweenRooms;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
+		int maxEnemiesRoom;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
 	TArray<FRoomStruct> rooms;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
@@ -106,6 +112,9 @@ public:
 		void SpawnRooms();
 	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
 		void CreateCorridors();
+
+	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
+		FVector GetRandomSpawn(FVector roomPos, FVector Size);
 
 protected:
 

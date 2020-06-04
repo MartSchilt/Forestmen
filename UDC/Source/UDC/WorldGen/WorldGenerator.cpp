@@ -34,6 +34,8 @@ UWorldGenerator::UWorldGenerator()
 	this->maxNumberOfRetries = 100;
 	this->countTriesplacing = 0;
 
+	this->maxEnemiesRoom = 6;
+
 }
 
 
@@ -61,6 +63,26 @@ void UWorldGenerator::CreateCorridors()
 	{
 		FindCorridorOverlap(connection);
 	}
+}
+
+FVector UWorldGenerator::GetRandomSpawn(FVector roomPos, FVector Size)
+{
+	// Make sure the enemies dont spawn at the corner of the room
+	roomPos.X += 2;
+	roomPos.Y += 2;
+
+	Size.Y -= 4;
+	Size.X -= 4;
+
+	int x = FMath::RandRange(roomPos.X, roomPos.X + Size.X);
+	int y = FMath::RandRange(roomPos.Y, roomPos.Y + Size.Y);
+
+	// Z must be 1 else the enemie will spawn in the ground
+	FVector ret = FVector(x, y, 1);
+
+
+
+	return ret;
 }
 
 
@@ -258,14 +280,14 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 
 void UWorldGenerator::ChooseRoomTypes()
 {
-	int startIndex = FMath::RandRange(0, this->rooms.Num());
+	int startIndex = FMath::RandRange(0, this->rooms.Num() - 1);
 	this->rooms[startIndex].roomType = ERoomType::Spawn;
 	
 	int bossIndex = 0;
 
 	while (true)
 	{
-		bossIndex = FMath::RandRange(0, this->rooms.Num());
+		bossIndex = FMath::RandRange(0, this->rooms.Num() - 1);
 		if (bossIndex != startIndex)
 			break;
 	}
@@ -280,7 +302,11 @@ void UWorldGenerator::ChooseRoomTypes()
 		}
 
 		this->rooms[i].roomType = ERoomType::Normal;
-	}
+		this->rooms[i].numberOfEnemies = FMath::RandRange(1, this->maxEnemiesRoom);
+	}	
+	
+
+
 
 
 
