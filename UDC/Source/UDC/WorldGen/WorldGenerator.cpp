@@ -35,26 +35,28 @@ UWorldGenerator::UWorldGenerator()
 	this->countTriesplacing = 0;
 
 	this->maxEnemiesRoom = 6;
-
 }
 
-
-
-
-
-
-void UWorldGenerator::SpawnRooms()
+// Called every frame
+void UWorldGenerator::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+}
 
-	while (!TooManyTries())
-	{
-		TryPlaceRoom();
-	}
+// Checks whether 2 Rooms overlap with a minimun distance between them
+bool UWorldGenerator::isRoomOverlapping(FRoomStruct existingRoom, FRoomStruct newRoom)
+{
+	FVector Room1Pos = existingRoom.roomPosition;
+	FVector Room1Size = existingRoom.roomSize;
+	FVector Room2Pos = newRoom.roomPosition;
+	FVector Room2Size = newRoom.roomSize;
 
-	CreateSpanningTree();
-	CreateCorridors();
-	ChooseRoomTypes();
+	if (Room1Pos.X >= (Room2Pos.X + Room2Size.X + this->minDistanceBetweenRooms) || Room2Pos.X >= (Room1Pos.X + Room1Size.X + this->minDistanceBetweenRooms))
+		return false;
+	if ((Room1Pos.Y + Room1Size.Y + this->minDistanceBetweenRooms) <= Room2Pos.Y || (Room2Pos.Y + Room2Size.Y + this->minDistanceBetweenRooms) <= Room1Pos.Y)
+		return false;
 
+	return true;
 }
 
 void UWorldGenerator::CreateCorridors()
@@ -80,8 +82,6 @@ FVector UWorldGenerator::GetRandomSpawn(FVector roomPos, FVector Size)
 	// Z must be 1 else the enemie will spawn in the ground
 	FVector ret = FVector(x, y, 1);
 
-
-
 	return ret;
 }
 
@@ -105,7 +105,6 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 
 	int max = FMath::Max(ax1, bx1);
 	int min = FMath::Min(ax2, bx2);
-
 
 	// Check overlap x;
 	if (max <= min && (min - max) >= this->corridorWidth)
@@ -164,7 +163,8 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 			temp.from.Y++;
 			temp.to.Y++;
 			this->corridors.Add(temp);
-		}		
+		}	
+
 		return;
 	}
 
@@ -173,7 +173,6 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 
 	int yMax = FMath::Max(ay1, by1);
 	int yMin = FMath::Min(ay2, by2);
-
 
 	// Room 1 is upper left from room 2
 
@@ -186,7 +185,6 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 		int x2 = bx1 + 4;
 
 		int y1 = FMath::RandRange(ay1, ay2);
-
 
 		horizontal.from = FVector(x1, y1, 0);
 		horizontal.to = FVector(x2, y1, 0);
@@ -212,7 +210,6 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 			this->corridors.Add(vertical);
 		}
 
-
 		this->corridors.Add(horizontal);
 
 		for (int i = 0; i < 3; i++)
@@ -222,9 +219,7 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 			this->corridors.Add(horizontal);
 		}
 
-
 		return;
-
 	}
 	else
 	{
@@ -257,7 +252,6 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 			this->corridors.Add(vertical);
 		}
 
-
 		this->corridors.Add(horizontal);
 
 		for (int i = 0; i < 3; i++)
@@ -267,15 +261,8 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 			this->corridors.Add(horizontal);
 		}
 
-
 		return;
-
-
 	}
-
-
-
-
 }
 
 void UWorldGenerator::ChooseRoomTypes()
@@ -303,50 +290,12 @@ void UWorldGenerator::ChooseRoomTypes()
 
 		this->rooms[i].roomType = ERoomType::Normal;
 		this->rooms[i].numberOfEnemies = FMath::RandRange(1, this->maxEnemiesRoom);
-	}	
-	
-
-
-
-
-
-}
-
-
-// Called every frame
-void UWorldGenerator::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-}
-
-void UWorldGenerator::TryPlaceRoom()
-{
-
-	FRoomStruct newRoom = GenerateRoom();
-
-	for (FRoomStruct existingRoom : this->rooms)
-	{
-		if (isRoomOverlapping(existingRoom, newRoom))
-		{
-			this->countTriesplacing++;
-			return;
-		}
 	}
-
-	newRoom.roomNumber = this->rooms.Num();
-	newRoom.roomCenter = FVector(newRoom.roomPosition.X + newRoom.roomSize.X / 2, newRoom.roomPosition.Y + newRoom.roomSize.Y / 2, 0);
-
-	rooms.Add(newRoom);
-
-	return;
 }
 
 // Generate a new roomStruct
 FRoomStruct UWorldGenerator::GenerateRoom()
 {
-
 	FVector pos;
 	FVector size = FVector(this->roomSize, this->roomSize, 0);
 
@@ -367,11 +316,30 @@ FRoomStruct UWorldGenerator::GenerateRoom()
 	return tempRoom;
 }
 
+void UWorldGenerator::TryPlaceRoom()
+{
+	FRoomStruct newRoom = UWorldGenerator::GenerateRoom();
+
+	for (FRoomStruct existingRoom : this->rooms)
+	{
+		if (isRoomOverlapping(existingRoom, newRoom))
+		{
+			this->countTriesplacing++;
+			return;
+		}
+	}
+
+	newRoom.roomNumber = this->rooms.Num();
+	newRoom.roomCenter = FVector(newRoom.roomPosition.X + newRoom.roomSize.X / 2, newRoom.roomPosition.Y + newRoom.roomSize.Y / 2, 0);
+
+	rooms.Add(newRoom);
+
+	return;
+}
 
 // Checks if there are too many rooms or tries
 bool UWorldGenerator::TooManyTries()
 {
-
 	if ((this->rooms.Num() != this->maxNumberOfRooms) && (this->countTriesplacing < this->maxNumberOfRetries))
 	{
 		return false;
@@ -380,28 +348,8 @@ bool UWorldGenerator::TooManyTries()
 	return true;
 }
 
-
-// Checks whether 2 Rooms overlap with a minimun distance between them
-bool UWorldGenerator::isRoomOverlapping(FRoomStruct existingRoom, FRoomStruct newRoom)
-{
-
-	FVector Room1Pos = existingRoom.roomPosition;
-	FVector Room1Size = existingRoom.roomSize;
-	FVector Room2Pos = newRoom.roomPosition;
-	FVector Room2Size = newRoom.roomSize;
-
-	if (Room1Pos.X >= (Room2Pos.X + Room2Size.X + this->minDistanceBetweenRooms) || Room2Pos.X >= (Room1Pos.X + Room1Size.X + this->minDistanceBetweenRooms))
-		return false;
-	if ((Room1Pos.Y + Room1Size.Y + this->minDistanceBetweenRooms) <= Room2Pos.Y || (Room2Pos.Y + Room2Size.Y + this->minDistanceBetweenRooms) <= Room1Pos.Y)
-		return false;
-
-	return true;
-
-}
-
 void UWorldGenerator::CreateSpanningTree()
 {
-	
 	TArray<FVector> rest;
 	TArray<FVector> done;
 	
@@ -418,7 +366,7 @@ void UWorldGenerator::CreateSpanningTree()
 
 	while (rest.Num() != 0)
 	{
-		FRoomConnection connection = FindMinimalDistance(rest, done);
+		FRoomConnection connection = UWorldGenerator::FindMinimalDistance(rest, done);
 
 		FRoomConnection corridor = FRoomConnection();
 		corridor.from = done[connection.from].Z;
@@ -430,15 +378,10 @@ void UWorldGenerator::CreateSpanningTree()
 
 		this->roomConnections.Add(corridor);
 	}
-
-
-
-
 }
 
 FRoomConnection UWorldGenerator::FindMinimalDistance(TArray<FVector> rest, TArray<FVector> done)
 {
-
 	float minDist = MAX_FLT;
 	FRoomConnection ret;
 
@@ -464,3 +407,14 @@ FRoomConnection UWorldGenerator::FindMinimalDistance(TArray<FVector> rest, TArra
 	return ret;
 }
 
+void UWorldGenerator::SpawnRooms()
+{
+	while (!UWorldGenerator::TooManyTries())
+	{
+		UWorldGenerator::TryPlaceRoom();
+	}
+
+	UWorldGenerator::CreateSpanningTree();
+	UWorldGenerator::CreateCorridors();
+	UWorldGenerator::ChooseRoomTypes();
+}
