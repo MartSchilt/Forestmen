@@ -191,18 +191,21 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 		vertical.from = FVector(x2, y1, 0);
 		if (ay1 > by1)
 		{
-			vertical.to = FVector(x2, by2, 0);
-			horizontal.from.Y += 3;
-			horizontal.to.Y += 3;
+			// Werkt helemaal niet??
+			horizontal.to.X += 3;
 			vertical.from.Y += 3;
+			vertical.to = FVector(x2, by2, 0);
 		}
 		else
 		{
+			// y goed, x niet
+			horizontal.to.X += 3;
 			vertical.to = FVector(x2, by1, 0);
 		}
 
 		this->corridors.Add(vertical);
 
+		// Corridors breder maken
 		for (int i = 0; i < 3; i++)
 		{
 			vertical.from.X++;
@@ -233,11 +236,14 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 
 		if (ay1 > by1)
 		{
+			// x goed, y niet
+			horizontal.from.Y -= 3;
+			horizontal.to.Y -= 3;
 			vertical.to = FVector(x2, by2, 0);
-
 		}
 		else
 		{
+			// werkt helemaal
 			horizontal.from.Y += 3;
 			horizontal.to.Y += 3;
 			vertical.from.Y += 3;
