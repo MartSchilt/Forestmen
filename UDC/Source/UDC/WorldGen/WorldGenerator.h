@@ -64,9 +64,6 @@ public:
 
 };
 
-
-
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UDC_API UWorldGenerator : public UActorComponent
 {
