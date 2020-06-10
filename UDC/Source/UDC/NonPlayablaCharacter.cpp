@@ -9,6 +9,7 @@
 // Sets default values
 ANonPlayablaCharacter::ANonPlayablaCharacter()
 {
+	DisplayName = "Enemy";
 	bDead = false;
 	HenkPoints = 100.0f;
 	HP_Max = 100.0f;
