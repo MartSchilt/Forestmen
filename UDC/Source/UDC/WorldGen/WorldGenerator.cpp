@@ -14,8 +14,8 @@ UWorldGenerator::UWorldGenerator()
 	// Set default values for world generation
 
 	// Size of the map
-	this->mapY = 250;
-	this->mapX = 250;
+	this->mapY = 200;
+	this->mapX = 200;
 
 	// Size of one tile in UE, when objects are placed in the world the vectors should be multiplied by this value
 	this->tileSize = 100;
@@ -125,14 +125,12 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 		}
 
 		this->corridors.Add(temp);
-		this->angledCorridors.Add(temp);
 
 		for (int i = 0; i < 3; i++)
 		{
 			temp.from.X++;
 			temp.to.X++;
 			this->corridors.Add(temp);
-			this->angledCorridors.Add(temp);
 		}
 
 		return;
@@ -159,14 +157,12 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 		}
 
 		this->corridors.Add(temp);
-		this->angledCorridors.Add(temp);
 
 		for (int i = 0; i < 3; i++)
 		{
 			temp.from.Y++;
 			temp.to.Y++;
 			this->corridors.Add(temp);
-			this->angledCorridors.Add(temp);
 		}	
 
 		return;

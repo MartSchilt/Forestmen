@@ -105,7 +105,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
 	TArray<FCorridorStruct> corridors;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
-		TArray<FCorridorStruct> angledCorridors;
+	TArray<FCorridorStruct> angledCorridors;
 
 	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
 		void SpawnRooms();
