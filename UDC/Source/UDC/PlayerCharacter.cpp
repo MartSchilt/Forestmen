@@ -16,9 +16,10 @@ APlayerCharacter::APlayerCharacter()
 	HP_Min = 0.0f;
 	HP_Heal = 20.0f;
 	HP_Decrease = 4.0f;
-	ManaPoints = 80.0f;
-	MP_Max = 80.0f;
-	MP_Recharge = 10.0f;
+	Stamina = 80.0f;
+	Stamina_Max = 80.0f;
+	Stamina_Regen = 1.0f;
+	Stamina_Recharge = 10.0f;
 	Coins = 0;
 
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -75,6 +76,11 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 	//if (HenkPoints > 0) HenkPoints -= DeltaTime * HP_Decrease;
 
+
+	Stamina = Stamina + Stamina_Regen * DeltaTime;
+	Stamina = FMath::Clamp(Stamina, 0.f, Stamina_Max);
+
+
 	if (HenkPoints <= 0) {
 		if (!bDead) {
 			bDead = true;
@@ -86,6 +92,10 @@ void APlayerCharacter::Tick(float DeltaTime)
 			GetWorldTimerManager().SetTimer(UnusedHandle, this, &APlayerCharacter::RestartGame, 3.0f, false);
 		}
 	}
+
+	
+
+
 
 }
 
@@ -143,8 +153,8 @@ void APlayerCharacter::OnBeginOverlap(UPrimitiveComponent* HitComp,
 	if (OtherActor->ActorHasTag("Recharge")) {
 		UE_LOG(LogTemp, Warning, TEXT("Collided with"));
 
-		ManaPoints += MP_Recharge;
-		if (ManaPoints > MP_Max) ManaPoints = MP_Max;
+		Stamina += Stamina_Recharge;
+		if (Stamina > Stamina_Max) Stamina = Stamina_Max;
 
 		OtherActor->Destroy();
 	}
@@ -163,5 +173,18 @@ void APlayerCharacter::TakeDamage(float d)
 	HenkPoints -= d;
 
 	if (HenkPoints < HP_Min) HenkPoints = HP_Min;
+}
+
+bool APlayerCharacter::HasEnoughStamina(float s)
+{
+	if ((Stamina - s) < 0)	return false;
+
+	else return true;
+
+}
+
+void APlayerCharacter::ReduceStamina(float s)
+{
+	this->Stamina = Stamina - s;
 }
 
