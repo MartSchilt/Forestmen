@@ -125,12 +125,14 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 		}
 
 		this->corridors.Add(temp);
+		this->angledCorridors.Add(temp);
 
 		for (int i = 0; i < 3; i++)
 		{
 			temp.from.X++;
 			temp.to.X++;
 			this->corridors.Add(temp);
+			this->angledCorridors.Add(temp);
 		}
 
 		return;
@@ -157,12 +159,14 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 		}
 
 		this->corridors.Add(temp);
+		this->angledCorridors.Add(temp);
 
 		for (int i = 0; i < 3; i++)
 		{
 			temp.from.Y++;
 			temp.to.Y++;
 			this->corridors.Add(temp);
+			this->angledCorridors.Add(temp);
 		}	
 
 		return;
@@ -202,6 +206,7 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 		}
 
 		this->corridors.Add(vertical);
+		this->angledCorridors.Add(vertical);
 
 		// Corridors breder maken
 		for (int i = 0; i < 3; i++)
@@ -209,15 +214,18 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 			vertical.from.X++;
 			vertical.to.X++;
 			this->corridors.Add(vertical);
+			this->angledCorridors.Add(vertical);
 		}
 
 		this->corridors.Add(horizontal);
+		this->angledCorridors.Add(horizontal);
 
 		for (int i = 0; i < 3; i++)
 		{
 			horizontal.from.Y++;
 			horizontal.to.Y++;
 			this->corridors.Add(horizontal);
+			this->angledCorridors.Add(horizontal);
 		}
 
 		return;
@@ -246,21 +254,25 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 			vertical.to = FVector(x2, by1, 0);
 		}
 		this->corridors.Add(vertical);
+		this->angledCorridors.Add(vertical);
 
 		for (int i = 0; i < 3; i++)
 		{
 			vertical.from.X++;
 			vertical.to.X++;
 			this->corridors.Add(vertical);
+			this->angledCorridors.Add(vertical);
 		}
 
 		this->corridors.Add(horizontal);
+		this->angledCorridors.Add(horizontal);
 
 		for (int i = 0; i < 3; i++)
 		{
 			horizontal.from.Y++;
 			horizontal.to.Y++;
 			this->corridors.Add(horizontal);
+			this->angledCorridors.Add(horizontal);
 		}
 
 		return;
