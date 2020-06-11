@@ -21,7 +21,7 @@ UWorldGenerator::UWorldGenerator()
 	this->tileSize = 100;
 
 	// Max amount of rooms in our world
-	this->maxNumberOfRooms = 3;
+	this->maxNumberOfRooms = 6;
 
 	// Size of 1 room in X and Y direction
 	this->roomSize = 50;
