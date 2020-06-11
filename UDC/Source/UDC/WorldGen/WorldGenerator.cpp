@@ -76,8 +76,9 @@ FVector UWorldGenerator::GetRandomSpawn(FVector roomPos, FVector Size)
 	Size.Y -= 4;
 	Size.X -= 4;
 
-	int x = FMath::RandRange(roomPos.X, roomPos.X + Size.X);
-	int y = FMath::RandRange(roomPos.Y, roomPos.Y + Size.Y);
+
+	int x = Seed.RandRange(roomPos.X, roomPos.X + Size.X);
+	int y = Seed.RandRange(roomPos.Y, roomPos.Y + Size.Y);
 
 	// Z must be 1 else the enemie will spawn in the ground
 	FVector ret = FVector(x, y, 1);
@@ -184,7 +185,7 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 		int x1 = ax2;
 		int x2 = bx1 + 4;
 
-		int y1 = FMath::RandRange(ay1, ay2);
+		int y1 = Seed.RandRange(ay1, ay2);
 
 		horizontal.from = FVector(x1, y1, 0);
 		horizontal.to = FVector(x2, y1, 0);
@@ -230,7 +231,7 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 	{
 		int x1 = ax1;
 		int x2 = bx2 - 4;
-		int y1 = FMath::RandRange(ay1, ay2);
+		int y1 = Seed.RandRange(ay1, ay2);
 
 		horizontal.from = FVector(x1, y1, 0);
 		horizontal.to = FVector(x2, y1, 0);
@@ -277,14 +278,14 @@ void UWorldGenerator::FindCorridorOverlap(FRoomConnection connection)
 
 void UWorldGenerator::ChooseRoomTypes()
 {
-	int startIndex = FMath::RandRange(0, this->rooms.Num() - 1);
+	int startIndex = Seed.RandRange(0, this->rooms.Num() - 1);
 	this->rooms[startIndex].roomType = ERoomType::Spawn;
 	
 	int bossIndex = 0;
 
 	while (true)
 	{
-		bossIndex = FMath::RandRange(0, this->rooms.Num() - 1);
+		bossIndex = Seed.RandRange(0, this->rooms.Num() - 1);
 		if (bossIndex != startIndex)
 			break;
 	}
@@ -299,7 +300,7 @@ void UWorldGenerator::ChooseRoomTypes()
 		}
 
 		this->rooms[i].roomType = ERoomType::Normal;
-		this->rooms[i].numberOfEnemies = FMath::RandRange(1, this->maxEnemiesRoom);
+		this->rooms[i].numberOfEnemies = Seed.RandRange(1, this->maxEnemiesRoom);
 	}
 }
 
@@ -314,8 +315,8 @@ FRoomStruct UWorldGenerator::GenerateRoom()
 	int xMax = this->mapX - size.X;
 	int yMax = this->mapY - size.Y;
 
-	int x = FMath::RandRange(0, xMax);
-	int y = FMath::RandRange(0, yMax);
+	int x = Seed.RandRange(0, xMax);
+	int y = Seed.RandRange(0, yMax);
 
 	pos = FVector(x, y, 0);
 
