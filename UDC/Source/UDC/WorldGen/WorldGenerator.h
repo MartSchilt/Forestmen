@@ -64,9 +64,6 @@ public:
 
 };
 
-
-
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UDC_API UWorldGenerator : public UActorComponent
 {
@@ -107,6 +104,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
 	TArray<FCorridorStruct> corridors;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
+	TArray<FCorridorStruct> angledCorridors;
 
 	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
 		void SpawnRooms();
