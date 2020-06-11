@@ -115,6 +115,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
 		FVector GetRandomSpawn(FVector roomPos, FVector Size);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Variables")
+		FRandomStream Seed;
+
+
 protected:
 
 public:	
