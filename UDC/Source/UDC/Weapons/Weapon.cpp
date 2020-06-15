@@ -16,31 +16,28 @@ AWeapon::AWeapon()
 }
 
 float AWeapon::GetDamage(Rarity rarity, int weaponType) {
-	
 
 	switch (weaponType) {
 	case 0:
-		val1 = (rarity / 4) + 1;
-		val2 = rarity * 4;
-		return (20 * val1) + val2;
+		val1 = (rarity / 4.f) + 1.f;
+		val2 = rarity * 4.f;
+		return ((20.f * val1) + val2);
 		break;
 
 	case 1:
-		val1 = (rarity / 4) + 1;
-		val2 = rarity * 4;
-		return (23 * val1) + val2;
+		val1 = (rarity / 4.f) + 1.f;
+		val2 = rarity * 4.f;
+		return ((23.f * val1) + val2);
 		break;
 
 	case 2:
-		val1 = (rarity / 4) + 1;
-		val2 = rarity * 4;
-		return (26 * val1) + val2;
+		val1 = (rarity / 4.f) + 1.f;
+		val2 = rarity * 4.f;
+		return ((26.f * val1) + val2);
 		break;
 
 	default:
-		val1 = (rarity / 4) + 1;
-		val2 = rarity * 4;
-		return (20 * val1) + val2;
+		return 0;
 		break;
 	}
 }
