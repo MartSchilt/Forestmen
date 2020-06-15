@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Sword.generated.h"
+#include "Weapon.generated.h"
 
 UENUM(BlueprintType)
 enum Rarity {
@@ -15,19 +15,16 @@ enum Rarity {
 };
 
 UCLASS()
-class UDC_API ASword : public AActor
+class UDC_API AWeapon : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ASword();
-
-	UPROPERTY(BlueprintReadWrite)
-		TEnumAsByte<Rarity> Type;
+	AWeapon();
 
 	UFUNCTION(BlueprintCallable, Category = Weapons)
-		float GetDamage(Rarity rarity);
+		float GetDamage(Rarity rarity, int weaponType);
 
 protected:
 	// Called when the game starts or when spawned
@@ -36,5 +33,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	float val1;
+	float val2;
 
 };
