@@ -6,14 +6,6 @@
 #include "GameFramework/Actor.h"
 #include "Weapon.generated.h"
 
-UENUM(BlueprintType)
-enum Rarity {
-	Common,
-	Rare,
-	Epic,
-	Legendary
-};
-
 UCLASS()
 class UDC_API AWeapon : public AActor
 {
@@ -24,7 +16,7 @@ public:
 	AWeapon();
 
 	UFUNCTION(BlueprintCallable, Category = Weapons)
-		float GetDamage(Rarity rarity, int weaponType);
+		float GetDamage(int rarity, int weaponType);
 
 protected:
 	// Called when the game starts or when spawned

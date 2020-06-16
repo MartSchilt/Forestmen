@@ -15,7 +15,7 @@ AWeapon::AWeapon()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-float AWeapon::GetDamage(Rarity rarity, int weaponType) {
+float AWeapon::GetDamage(int rarity, int weaponType) {
 
 	switch (weaponType) {
 	case 0:
