@@ -14,10 +14,7 @@ ANonPlayablaCharacter::ANonPlayablaCharacter()
 	HenkPoints = 100.0f;
 	HP_Max = 100.0f;
 	HP_Heal = 10.0f;
-	ManaPoints = 80.0f;
-	MP_Max = 80.0f;
-	MP_Recharge = 10.0f;
-	Coins = 0;
+	Coins = 10;
 	Is_Attacked = false;
 
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
