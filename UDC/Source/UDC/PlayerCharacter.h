@@ -53,11 +53,14 @@ public:
 		float HP_Decrease;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		float ManaPoints;
+		float Stamina;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		float MP_Max;
+		float Stamina_Max;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		float MP_Recharge;
+		float Stamina_Recharge;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		float Stamina_Regen;
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		int Coins;
@@ -73,6 +76,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Player)
 		void TakeDamage(float d);
 
+	UFUNCTION(BlueprintCallable, Category = Player)
+		bool HasEnoughStamina(float s);
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		void ReduceStamina(float s);
 
 	UPROPERTY(EditAnywhere, Category = "UI HUD")
 		TSubclassOf<UUserWidget> Player_HUD_Class;

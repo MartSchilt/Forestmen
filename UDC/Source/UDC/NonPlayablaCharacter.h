@@ -20,21 +20,17 @@ public:
 	ANonPlayablaCharacter();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FString DisplayName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bDead;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float HenkPoints;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float HP_Max;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		float HP_Heal;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float ManaPoints;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		float MP_Max;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		float MP_Recharge;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool Is_Attacked;

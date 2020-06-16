@@ -7,6 +7,15 @@
 #include "WorldGenerator.generated.h"
 
 
+UENUM(BlueprintType)
+enum class ERoomType : uint8 
+{
+	Spawn	UMETA(DisplayName="Spawn"),
+	Normal	UMETA(DisplayName = "Normal"),
+	Boss	UMETA(DisplayName = "Boss"),
+};
+
+
 USTRUCT(BlueprintType)
 struct FRoomStruct
 {
@@ -23,7 +32,10 @@ public:
 		FVector roomCenter;
 	UPROPERTY(BlueprintReadOnly)
 		TArray<FVector> roomEntrances;
-
+	UPROPERTY(BlueprintReadOnly)
+		ERoomType roomType;
+	UPROPERTY(BlueprintReadOnly)
+		int32 numberOfEnemies;
 };
 
 
@@ -51,17 +63,6 @@ public:
 		FVector to;
 
 };
-
-
-UENUM(BlueprintType)
-enum CorridorType
-{
-	Vertical,
-	Horizontal,
-	Double
-};
-
-
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UDC_API UWorldGenerator : public UActorComponent
@@ -92,6 +93,10 @@ public:
 		int minDistanceBetweenRooms;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
+		int maxEnemiesRoom;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
 	TArray<FRoomStruct> rooms;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
@@ -99,11 +104,20 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
 	TArray<FCorridorStruct> corridors;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
+	TArray<FCorridorStruct> angledCorridors;
 
 	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
 		void SpawnRooms();
 	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
 		void CreateCorridors();
+
+	UFUNCTION(BlueprintCallable, Category = LevelBlueprint)
+		FVector GetRandomSpawn(FVector roomPos, FVector Size);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Variables")
+		FRandomStream Seed;
+
 
 protected:
 
@@ -124,5 +138,8 @@ private:
 	void CreateSpanningTree();
 	FRoomConnection FindMinimalDistance(TArray<FVector> rest, TArray<FVector> done);
 	void FindCorridorOverlap(FRoomConnection connection);
+
+	void ChooseRoomTypes();
+
 
 };
